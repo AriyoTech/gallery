@@ -18,7 +18,7 @@ pipeline {
         stage('Clone repo') {
             steps {
                 echo 'Clone this repository...'
-                git credentialsId: 'gitconnect', url: 'https://github.com/AriyoTech/gallery.git'
+                git credentialsId: 'AriyoTech', url: 'https://github.com/AriyoTech/gallery.git'
             }
         }
         stage('Install Npm') {
@@ -26,21 +26,21 @@ pipeline {
                 echo 'Installing npm packages...'
                 sh 'npm install'
                 sh 'npm install mongodb'
-                sh 'npm install -g webpack'
+             //   sh 'npm install -g webpack'
             }
         }
-        stage('Build') {
-            steps {
-                echo 'Running the build...'
-                sh 'npm run build'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                sh 'npm test'
-            }
-        }
+   ///     stage('Build') {
+    ///        steps {
+    //            echo 'Running the build...'
+    //            sh 'npm run build'
+   ///         }
+    //    }
+   //     stage('Test') {
+   //         steps {
+   //             echo 'Running tests...'
+   //             sh 'npm test'
+   //         }
+    //    }
         stage('Deploying to Render122') {
                         steps {
                             script {
@@ -58,10 +58,10 @@ pipeline {
                             slackSend(
                     botUser: true, 
                     channel: 'C07N2N36TTR', 
-                    color: '',  
+                    color: '#0000FF',  
                     message: "Deployment successful! Build ID - ${env.BUILD_ID}. Check the deployed site: https://gallery-1-9soh.onrender.com", 
-                    teamDomain: 'DevOps Engineer', 
-                    tokenCredentialId: 'slacklog'
+                    teamDomain: 'Gideon_Ip1', 
+                    tokenCredentialId: 'JenkinsGideon'
                 )
 
                         }
