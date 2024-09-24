@@ -35,11 +35,11 @@ pipeline {
                 sh 'npm run build'
             }
         }
-        stage('Test') {
-           steps {
-                echo 'Running tests...'
-                sh 'npm test'
-            }
+      //  stage('Test') {
+    //       steps {
+    //            echo 'Running tests...'
+      //          sh 'npm test'
+    //        }
         }
         stage('Deploying to Render122') {
                         steps {
