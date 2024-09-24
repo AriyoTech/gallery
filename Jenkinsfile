@@ -26,21 +26,21 @@ pipeline {
                 echo 'Installing npm packages...'
                 sh 'npm install'
                 sh 'npm install mongodb'
-             //   sh 'npm install -g webpack'
+                sh 'npm install -g webpack'
             }
         }
-   ///     stage('Build') {
-    ///        steps {
-    //            echo 'Running the build...'
-    //            sh 'npm run build'
-   ///         }
-    //    }
-   //     stage('Test') {
-   //         steps {
-   //             echo 'Running tests...'
-   //             sh 'npm test'
-   //         }
-    //    }
+        stage('Build') {
+                   steps {
+                echo 'Running the build...'
+                sh 'npm run build'
+            }
+        }
+        stage('Test') {
+           steps {
+                echo 'Running tests...'
+                sh 'npm test'
+            }
+        }
         stage('Deploying to Render122') {
                         steps {
                             script {
