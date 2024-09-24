@@ -4,7 +4,7 @@ pipeline {
         nodejs 'nodejs' // Ensure this name matches your Global Tool Configuration
     }
     environment {
-        DEPLOY_HOOK_URL = 'https://api.render.com/deploy/srv-crotab52ng1s73akaeug?key=YUmxMvTboHM',
+        DEPLOY_HOOK_URL = 'https://api.render.com/deploy/srv-crotab52ng1s73akaeug?key=YUmxMvTboHM'
         //RENDER_API_KEY = credentials('render-api-key')
       
     }
