@@ -88,6 +88,6 @@ pipeline {
             steps {
                 sh 'nohup node server.js &'
             }
-        }
-    }
+}
+}
 }
