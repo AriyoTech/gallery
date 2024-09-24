@@ -54,22 +54,7 @@ pipeline {
                /* CORRECT */
                // sh('curl -u $EXAMPLE_CREDS_USR:$EXAMPLE_CREDS_PSW https://example.com/')
         }
-        stage('Deploy to Render') {
-            steps {
-                script {
-                    def response = sh(script: """
-                        curl -X POST ${RENDER_URL} \
-                        -H "Authorization: Bearer ${RENDER_API_KEY}" \
-                        -H "Content-Type: application/json" \
-                        -d '{
-                            "serviceId": "${SERVICE_ID}"
-                        }'
-                    """, returnStdout: true).trim()
-                   
-                    echo "Deployment Response: ${response}"
-                }
-            }
-        }
+        
 
        stage('sending message to slack'){
                         steps{
