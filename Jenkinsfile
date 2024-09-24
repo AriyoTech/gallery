@@ -21,54 +21,56 @@ pipeline {
                 git credentialsId: 'AriyoTech', url: 'https://github.com/AriyoTech/gallery.git'
             }
         }
-        stage('Install Npm') {
+        stage('Install npm Packages') {
             steps {
-                echo 'Installing npm packages...'
                 sh 'npm install'
                 sh 'npm install mongodb'
-             //   sh 'npm install -g webpack'
+                sh 'npm install -g webpack'
             }
         }
         stage('Build') {
-                   steps {
+            steps {
                 echo 'Running the build...'
                 sh 'npm run build'
             }
         }
-        stage('Test') {
-           steps {
-                echo 'Running tests...'
+        stage('Npm Test') {
+            steps {
                 sh 'npm test'
             }
         }
-               sh 'npm install -g webpack'
+        stage('Deploy to Render122') {
+            steps {
+                script {
+                    def response = sh(script: """
+                        curl -X POST ${DEPLOY_HOOK_URL}
+                    """, returnStdout: true).trim()
+                   
+                    echo "Deployment Response: ${response}"
+                }
             }
-        }
-        stage('Build') {
-           steps {
-               echo 'Running the build...'
-               sh 'npm run build'
-            }
-        }
-   //     stage('Test') {
-   //         steps {
-   //             echo 'Running tests...'
-   //             sh 'npm test'
-   //         }
-    //    }
-        stage('Deploying to Render122') {
-                        steps {
-                            script {
-                                def response = sh(script: """
-                                    curl -X POST ${DEPLOY_HOOK_URL}
-                                """, returnStdout: true).trim()
-                                
-                                echo "Deploying Response: ${response}"
-                            }
-                        }
 
-                    }
-                    stage('sending message to slack'){
+               /* CORRECT */
+               // sh('curl -u $EXAMPLE_CREDS_USR:$EXAMPLE_CREDS_PSW https://example.com/')
+        }
+        stage('Deploy to Render') {
+            steps {
+                script {
+                    def response = sh(script: """
+                        curl -X POST ${RENDER_URL} \
+                        -H "Authorization: Bearer ${RENDER_API_KEY}" \
+                        -H "Content-Type: application/json" \
+                        -d '{
+                            "serviceId": "${SERVICE_ID}"
+                        }'
+                    """, returnStdout: true).trim()
+                   
+                    echo "Deployment Response: ${response}"
+                }
+            }
+        }
+
+       stage('sending message to slack'){
                         steps{
                             slackSend(
                     botUser: true, 
@@ -81,15 +83,11 @@ pipeline {
 
                         }
                     }
-                    
-    }
 
-    post {
-        always {
-            echo 'Pipeline completed.'
-        }
-        failure {
-            echo 'Pipeline failed.'
-        }
-    }
+        stage('Run Application') {
+            steps {
+                sh 'nohup node server.js &'
+            }
+        }
+    }
 }
