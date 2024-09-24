@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --exit",
-    "build": "webpack --config webpack.config.js"
+    "test": "mocha --exit"
+   
   },
   "keywords": [],
   "author": "",
